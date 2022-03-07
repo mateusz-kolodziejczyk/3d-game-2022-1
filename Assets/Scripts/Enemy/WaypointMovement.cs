@@ -4,87 +4,109 @@ using UnityEngine;
 
 public class WaypointMovement : MonoBehaviour
 {
-    [SerializeField] private GameObject target;
     [SerializeField] private List<GameObject> paths;
+    private HandleDestination handleDestination;
 
-    private List<List<GameObject>> _waypoints = new List<List<GameObject>>();
-    private int _currentPath = 0;
-    private int _wpCount = 0;
+    private List<List<GameObject>> waypoints = new List<List<GameObject>>();
+    private int currentPath = 0;
+    private int wpCount = 0;
 
     [SerializeField] private bool followsRandomWaypoints;
+    [SerializeField] private bool followsRandomPaths;
 
-    private Animator _animator;
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        handleDestination = GetComponent<HandleDestination>();
         for (int i = 0; i < paths.Count; i++)
         {
-            _waypoints.Add(new List<GameObject>());
+            waypoints.Add(new List<GameObject>());
             foreach (Transform child in paths[i].transform) 
             {
-                _waypoints[i].Add(child.gameObject);
+                waypoints[i].Add(child.gameObject);
             }
         }
-        _animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        var currentState = _animator.GetCurrentAnimatorStateInfo(0);
-        target = _waypoints[_currentPath][_wpCount];
-        if (Vector3.Distance(transform.position, target.transform.position) < 1.0)
-        {
-            MoveToNextWp();
-        }
-        Move();
     }
 
-    private void Move()
+    public Transform GetNextDestination()
     {
-        var navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        navMeshAgent.SetDestination(target.transform.position);
+        var destination = waypoints[currentPath][wpCount].transform;
+        if (Vector3.Distance(transform.position, destination.position) < 1.0)
+        {
+            if (followsRandomWaypoints)
+            {
+                MoveToRandomPath();
+                MoveToRandomWP();
+            }
+            else
+            {
+                MoveToNextWp();
+            }
+        }
+
+        return destination;
     }
 
     private void MoveToNextWp()
     {
-        _wpCount++;
-        if (_wpCount >= _waypoints[_currentPath].Count)
+        wpCount++;
+        if (wpCount >= waypoints[currentPath].Count)
         {
-            _wpCount = 0;
-            MoveToRandomPath();
-            _animator.SetBool("patrol", false);
+            wpCount = 0;
+            if (followsRandomPaths)
+            {
+                MoveToRandomPath();
+            }
+            else
+            {
+                MoveToNextPath();
+            }
+        }
+    }
+
+    private void MoveToNextPath()
+    {
+        currentPath++;
+        if (currentPath >= waypoints.Count)
+        {
+            currentPath = 0;
         }
     }
 
     private void MoveToRandomPath()
     {
-        if(_waypoints.Count <= 1){
-            _currentPath = 0;
+        if(waypoints.Count <= 1){
+            currentPath = 0;
             return;
         }
         int random = 0;
-        random = Random.Range(0, _waypoints.Count);
-        while (random == _currentPath)
+        random = Random.Range(0, waypoints.Count);
+        while (random == currentPath)
         {
-            random = Random.Range(0, _waypoints.Count);
+            random = Random.Range(0, waypoints.Count);
         }
 
-        _currentPath = random;
+        currentPath = random;
     }
 
     private void MoveToRandomWP()
     {
-        int previous = _wpCount;
+        int previous = wpCount;
         int random = 0;
         do
         {
-            random = Random.Range(0, _waypoints[_currentPath].Count);
+            random = Random.Range(0, waypoints[currentPath].Count);
         } while (random == previous);
 
-        _wpCount = random;
+        wpCount = random;
     }
 
 }

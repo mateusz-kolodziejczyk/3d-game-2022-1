@@ -1,18 +1,74 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Senses : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private GameObject player;
+    private void Start()
     {
-        
+        player = GameObject.FindWithTag("Player");
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool CanSmellPlayer()
     {
-        
+        return Smell();
+    }
+
+    public bool CanHearPlayer()
+    {
+        return Listen();
+    }
+
+    public bool CanSeePlayer()
+    {
+        return Look();
+    }
+
+    public bool CanSensePlayer()
+    {
+        return CanHearPlayer() || CanSmellPlayer() || CanSeePlayer();
+    }
+    
+    private bool Smell()
+    {
+        GameObject[] allBCs = GameObject.FindGameObjectsWithTag("breadcrumb");
+        float minDistance = 10;
+        bool detectedBC = false;
+        foreach (var o in allBCs)
+        {
+            if (Vector3.Distance(transform.position, o.transform.position) < minDistance)
+            {
+                detectedBC = true;
+                break;
+            }
+        }
+        return detectedBC;
+    }
+    private bool Listen()
+    {
+        float distance = Vector3.Distance(transform.position, player.transform.position);
+        return distance < -1;
+    }
+
+    private bool Look()
+    {
+        var ray = new Ray();
+        RaycastHit hit;
+        float castingDistance = 20;
+        ray.origin = transform.position + Vector3.up * 0.7f;
+        ray.direction = transform.forward * castingDistance;
+        Debug.DrawRay(ray.origin, ray.direction, Color.red);
+        if (Physics.Raycast(ray.origin, ray.direction, out hit, castingDistance))
+        {
+            if (hit.collider.gameObject.CompareTag("Player"))
+            {
+                return true;
+            }
+            
+        }
+
+        return false;
     }
 }
