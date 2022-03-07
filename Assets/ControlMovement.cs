@@ -17,6 +17,7 @@ public class ControlMovement : MonoBehaviour
     private HandleAnimationController handleAnimationController;
     private Senses senses;
     private Shooting shooting;
+    private Health health;
 
     private Animator animator;
 
@@ -42,12 +43,26 @@ public class ControlMovement : MonoBehaviour
             shooting = shoot;
             SyncAttackTime(shoot.AttackSpeed);
         }
+
+        if (TryGetComponent(out Health h))
+        {
+            health = h;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+
         var destination = gameObject.transform;
+        
+        // If the npc is dead, do not do any more animation
+        if (npcState == NPCState.Dead)
+        {
+            handleDestination.Destination = destination;
+            return;
+        }
+        
         if (waypointMovement != null)
         {
             destination = waypointMovement.GetNextDestination();
@@ -74,6 +89,14 @@ public class ControlMovement : MonoBehaviour
                     shooting.Shoot();
                 }
                 npcState = NPCState.Shooting;
+            }
+        }
+
+        if (health != null)
+        {
+            if (health.HP <= 0)
+            {
+                npcState = NPCState.Dead;
             }
         }
         
