@@ -8,6 +8,7 @@ using UnityEngine.XR;
 
 public class ControlMovement : MonoBehaviour
 {
+    [SerializeField] private AnimationClip shootingAnimation;
     private NPCState npcState = NPCState.Idle;
     private HandleDestination handleDestination;
 
@@ -15,11 +16,15 @@ public class ControlMovement : MonoBehaviour
 
     private HandleAnimationController handleAnimationController;
     private Senses senses;
+    private Shooting shooting;
+
+    private Animator animator;
 
     private WaypointMovement waypointMovement;
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player");
         handleDestination = GetComponent<HandleDestination>();
         handleAnimationController = GetComponent<HandleAnimationController>();
@@ -30,6 +35,12 @@ public class ControlMovement : MonoBehaviour
         if (TryGetComponent(out WaypointMovement wp))
         {
             waypointMovement = wp;
+        }
+
+        if (TryGetComponent(out Shooting shoot))
+        {
+            shooting = shoot;
+            SyncAttackTime(shoot.AttackSpeed);
         }
     }
 
@@ -48,6 +59,22 @@ public class ControlMovement : MonoBehaviour
         {
             destination = player.transform;
             npcState = NPCState.FollowingPlayer;
+
+            // Check if the player can shoot, if the player not already in shooting animation then reset shot timer.
+            if (shooting != null && shooting.Ammo > 0)
+            {
+                Debug.Log(shooting.Ammo);
+                if (handleAnimationController.AnimState != AnimationState.Shooting)
+                {
+                    shooting.ResetShootingTimer();
+                }
+
+                if (shooting.ReadyToShoot())
+                {
+                    shooting.Shoot();
+                }
+                npcState = NPCState.Shooting;
+            }
         }
         
         handleDestination.Destination = destination;
@@ -73,5 +100,10 @@ public class ControlMovement : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    private void SyncAttackTime(float attackDelay)
+    {
+        animator.SetFloat("AttackSpeedMultiplier", shootingAnimation.length / attackDelay);
     }
 }
