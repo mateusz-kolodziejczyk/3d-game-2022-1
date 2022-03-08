@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.XR;
 
 
-public class ControlMovement : MonoBehaviour
+public class ControlIntelligentPatroller : MonoBehaviour
 {
     [SerializeField] private AnimationClip shootingAnimation;
     private NPCState npcState = NPCState.Idle;
@@ -92,14 +92,60 @@ public class ControlMovement : MonoBehaviour
             }
         }
 
+        if (shooting != null && shooting.Ammo <= shooting.MaxAmmo * 0.2)
+        {
+            npcState = NPCState.LookingForAmmo;
+            var ammoPacks = GameObject.FindGameObjectsWithTag("ammo");
+            var minDistance = float.MaxValue;
+            var closestAmmoPack = gameObject;
+            foreach (var ammoPack in ammoPacks)
+            {
+                var distance = Vector3.Distance(transform.position, ammoPack.transform.position);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestAmmoPack = ammoPack;
+                }
+            }
+
+            // If the ammo pack has been found, assign it.
+            if (closestAmmoPack != gameObject)
+            {
+                destination = closestAmmoPack.transform;
+            }
+        }
+
         if (health != null)
         {
             if (health.HP <= 0)
             {
                 npcState = NPCState.Dead;
             }
+
+            if (health.HP <= health.MaxHP * 0.2)
+            {
+                npcState = NPCState.LookingForHealth;
+                // Search for all healthpacks and go towards the nearest one.
+                var healthPacks = GameObject.FindGameObjectsWithTag("health");
+                var minDistance = float.MaxValue;
+                var closestHealthPack = gameObject;
+                foreach (var healthPack in healthPacks)
+                {
+                    var distance = Vector3.Distance(transform.position, healthPack.transform.position);
+                    if (distance < minDistance)
+                    {
+                        minDistance = distance;
+                        closestHealthPack = healthPack;
+                    }
+                }
+
+                // If the ammo pack has been found, assign it.
+                if (closestHealthPack != gameObject)
+                {
+                    destination = closestHealthPack.transform;
+                }
+            }
         }
-        
         handleDestination.Destination = destination;
 
         // Go through each of the supported scripts to check which should run based on the npc state
@@ -127,6 +173,7 @@ public class ControlMovement : MonoBehaviour
 
     private void SyncAttackTime(float attackDelay)
     {
-        animator.SetFloat("AttackSpeedMultiplier", shootingAnimation.length / attackDelay);
+        animator.SetFloat("AttackSpeedMultiplier",
+            1 / (shootingAnimation.length * 1 / (shootingAnimation.length * attackDelay)));
     }
 }

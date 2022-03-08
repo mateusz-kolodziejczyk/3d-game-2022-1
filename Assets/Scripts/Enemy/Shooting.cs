@@ -39,7 +39,7 @@ public class Shooting : MonoBehaviour
     public bool ReadyToShoot()
     {
         shootingTimer += Time.deltaTime;
-        if (attackSpeed <= shootingTimer)
+        if (shootingTimer > 1/attackSpeed)
         {
             shootingTimer = 0;
             return true;
@@ -52,4 +52,11 @@ public class Shooting : MonoBehaviour
         shootingTimer = 0;
     }
     
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("ammo"))
+        {
+            Ammo = MaxAmmo;
+        }
+    }
 }
