@@ -5,8 +5,27 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+   private float hp;
    [SerializeField] private float maxHP;
-   public float HP { get; set; }
+
+   private float deathCounter = 0;
+   private float deathTime = 5;
+
+   private void Update()
+   {
+      if (hp <= 0)
+      {
+         deathCounter += Time.deltaTime;
+         if (deathCounter >= deathTime)
+         {
+            Destroy(gameObject);
+         }
+      }
+   }
+
+   public float HP
+   {
+      get => hp; set => hp = value; }
    public float MaxHP
    {
       get => maxHP;
@@ -24,4 +43,6 @@ public class Health : MonoBehaviour
          HP = MaxHP;
       }
    }
+   
+   
 }

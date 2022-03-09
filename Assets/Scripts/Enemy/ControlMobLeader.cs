@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
@@ -6,44 +7,32 @@ using UnityEngine;
 using UnityEngine.XR;
 
 
-public class ControlMovementPatroller : MonoBehaviour
+public class ControlMobLeader : MonoBehaviour
 {
-    [SerializeField] private AnimationClip shootingAnimation;
+
     private NPCState npcState = NPCState.Idle;
     private HandleDestination handleDestination;
 
     private GameObject player;
 
     private HandleAnimationController handleAnimationController;
-    private Senses senses;
-    private Shooting shooting;
     private Health health;
 
     private Animator animator;
 
-    private WaypointMovement waypointMovement;
+    [SerializeField] private GameObject mobMemberPrefab;
+    [SerializeField] private int maxMobMembers;
+    private List<GameObject> mobMembers = new List<GameObject>();
+
     // Start is called before the first frame update
     void Start()
     {
+        spawnMobMembers();
         animator = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player");
         handleDestination = GetComponent<HandleDestination>();
         handleAnimationController = GetComponent<HandleAnimationController>();
-        if (TryGetComponent(out Senses s))
-        {
-            senses = s;
-        }
-        if (TryGetComponent(out WaypointMovement wp))
-        {
-            waypointMovement = wp;
-        }
-
-        if (TryGetComponent(out Shooting shoot))
-        {
-            shooting = shoot;
-            SyncAttackTime(shoot.AttackSpeed);
-        }
-
+        
         if (TryGetComponent(out Health h))
         {
             health = h;
@@ -53,56 +42,23 @@ public class ControlMovementPatroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         var destination = gameObject.transform;
-        
+
         // If the npc is dead, do not do any more animation
         if (npcState == NPCState.Dead)
         {
             handleDestination.Destination = destination;
             return;
         }
+
+        destination = player.transform;
+        npcState = NPCState.FollowingPlayer;
         
-        if (waypointMovement != null)
-        {
-            destination = waypointMovement.GetNextDestination();
-            npcState = NPCState.FollowingWaypoints;
-        }
-        // Check each of the scripts to see what the npc state should update to.
-        // Check senses
-        if (senses != null && senses.CanSensePlayer())
-        {
-            destination = player.transform;
-            npcState = NPCState.FollowingPlayer;
-
-            // Check if the player can shoot, if the player not already in shooting animation then reset shot timer.
-            if (shooting != null && shooting.Ammo > 0)
-            {
-                Debug.Log(shooting.Ammo);
-                if (handleAnimationController.AnimState != AnimationState.Shooting)
-                {
-                    shooting.ResetShootingTimer();
-                }
-
-                if (shooting.ReadyToShoot())
-                {
-                    shooting.Shoot();
-                }
-                npcState = NPCState.Shooting;
-            }
-        }
-
-        if (health != null)
-        {
-            if (health.HP <= 0)
-            {
-                npcState = NPCState.Dead;
-            }
-        }
         if (health.HP <= 0)
         {
             npcState = NPCState.Dead;
         }
+        
         handleDestination.Destination = destination;
 
         // Go through each of the supported scripts to check which should run based on the npc state
@@ -127,9 +83,33 @@ public class ControlMovementPatroller : MonoBehaviour
                 break;
         }
     }
-
-    private void SyncAttackTime(float attackDelay)
+    
+    // Taken from https://answers.unity.com/questions/1661755/how-to-instantiate-objects-in-a-circle-formation-a.html
+    // Instantiates members around the mob leader
+    private void spawnMobMembers()
     {
-        animator.SetFloat("AttackSpeedMultiplier", shootingAnimation.length * 1/(shootingAnimation.length * attackDelay));
+        for (int i = 0; i < maxMobMembers; i++){
+         
+            /* Distance around the circle */  
+            var radians = 2 * Math.PI / maxMobMembers * i;
+         
+            /* Get the vector direction */ 
+            var vertical = MathF.Sin((float)radians);
+            var horizontal = MathF.Cos((float)radians); 
+         
+            var spawnDir = new Vector3 (horizontal, 0, vertical);
+         
+            /* Get the spawn position */ 
+            var spawnPos = transform.position + spawnDir * 2; // Radius is just the distance away from the point
+         
+            /* Now spawn */
+            var mobMember = Instantiate (mobMemberPrefab, spawnPos, Quaternion.identity);
+
+            // Make the leader this game object.
+            mobMember.GetComponent<ControlMob>().Leader = gameObject;
+            
+            // Add member to list
+            mobMembers.Add(mobMember);
+        }
     }
 }

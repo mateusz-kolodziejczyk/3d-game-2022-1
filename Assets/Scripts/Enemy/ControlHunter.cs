@@ -82,10 +82,7 @@ public class ControlHunter : MonoBehaviour
 
         if (health != null)
         {
-            if (health.HP <= 0)
-            {
-                npcState = NPCState.Dead;
-            }
+
 
             if (health.HP <= health.MaxHP * 0.2 && shooting.Ammo > shooting.MaxAmmo * 0.2 )
             {
@@ -129,7 +126,10 @@ public class ControlHunter : MonoBehaviour
 
             npcState = NPCState.Shooting;
         }
-
+        if (health.HP <= 0)
+        {
+            npcState = NPCState.Dead;
+        }
         handleDestination.Destination = destination;
 
         // Go through each of the supported scripts to check which should run based on the npc state

@@ -1006,7 +1006,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 77d376b3ed796b847bd5f1e625ee335c, type: 2}
+  - {fileID: 2100000, guid: 57a86942107a40f40a223ba52575fb59, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1343,16 +1343,14 @@ GameObject:
   - component: {fileID: 4456296188510583336}
   - component: {fileID: 4456296188510583337}
   - component: {fileID: 4456296188510583343}
-  - component: {fileID: 3980653823023344065}
-  - component: {fileID: 615714743225466500}
   - component: {fileID: 782855529638297792}
   - component: {fileID: 6739855950234576870}
   - component: {fileID: 6739855950234576863}
   - component: {fileID: 6739855950234576860}
-  - component: {fileID: 1822235420599559000}
+  - component: {fileID: 5372590299433264655}
   m_Layer: 0
-  m_Name: The Mob
-  m_TagString: Untagged
+  m_Name: Mob Member
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1394,7 +1392,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1442,11 +1440,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 20
-  m_Acceleration: 150
+  m_Speed: 1.5
+  m_Acceleration: 20
   avoidancePriority: 50
-  m_AngularSpeed: 360
-  m_StoppingDistance: 0
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -1454,37 +1452,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &3980653823023344065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3537181769114879858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0ba4bd1856cb4942b0bab5f428f36e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  paths:
-  - {fileID: 0}
-  - {fileID: 0}
-  followsRandomWaypoints: 1
-  followsRandomPaths: 0
---- !u!114 &615714743225466500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3537181769114879858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e94ddeedb826e41c88541e89bab950f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxAmmo: 10
-  attackSpeed: 0.5
 --- !u!114 &782855529638297792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1534,7 +1501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdde95c05c4da3640a25265e7814f714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1822235420599559000
+--- !u!114 &5372590299433264655
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1543,10 +1510,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3537181769114879858}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7334474b91f6d8349ad5d950ad6f2c06, type: 3}
+  m_Script: {fileID: 11500000, guid: aef2a3642e0644be91516dd245144d49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingAnimation: {fileID: -203655887218126122, guid: 349c935c5d9bd3a40bc14fa6171cdc86, type: 3}
 --- !u!1 &3662254813077660713
 GameObject:
   m_ObjectHideFlags: 0
@@ -2639,7 +2605,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 77d376b3ed796b847bd5f1e625ee335c, type: 2}
+  - {fileID: 2100000, guid: 57a86942107a40f40a223ba52575fb59, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

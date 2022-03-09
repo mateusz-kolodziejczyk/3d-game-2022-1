@@ -146,6 +146,10 @@ public class ControlIntelligentPatroller : MonoBehaviour
                 }
             }
         }
+        if (health.HP <= 0)
+        {
+            npcState = NPCState.Dead;
+        }
         handleDestination.Destination = destination;
 
         // Go through each of the supported scripts to check which should run based on the npc state

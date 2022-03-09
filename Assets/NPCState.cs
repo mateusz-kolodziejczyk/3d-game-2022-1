@@ -9,5 +9,7 @@
         FollowingPlayer,
         Shooting,
         Dead,
+        FollowingLeader,
+        Wandering,
     }
 }

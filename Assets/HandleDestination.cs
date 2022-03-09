@@ -28,9 +28,22 @@ public class HandleDestination : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
+    private void Update()
+    {
+        Debug.Log(agent.destination);
+    }
+
     public void ClearDestination()
     {
         agent.ResetPath();
+    }
+
+    public void SetDestinationWithPosition(Vector3 position)
+    {
+        if (agent != null)
+        {
+            agent.SetDestination(position);
+        }
     }
 
 }

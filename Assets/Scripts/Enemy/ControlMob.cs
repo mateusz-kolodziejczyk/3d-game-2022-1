@@ -1,38 +1,42 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.XR;
+using Random = UnityEngine.Random;
 
 
 public class ControlMob : MonoBehaviour
 {
-    [SerializeField] private AnimationClip shootingAnimation;
     private NPCState npcState = NPCState.Idle;
     private HandleDestination handleDestination;
 
     private GameObject player;
+    private GameObject leader;
+    public GameObject Leader
+    {
+        get => leader;
+        set => leader = value;
+    }
 
     private HandleAnimationController handleAnimationController;
-    private Shooting shooting;
     private Health health;
 
     private Animator animator;
 
+    private float maxPathTime = 0.5f;
+
+    private float pathTime = 4;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         animator = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player");
         handleDestination = GetComponent<HandleDestination>();
         handleAnimationController = GetComponent<HandleAnimationController>();
-
-        if (TryGetComponent(out Shooting shoot))
-        {
-            shooting = shoot;
-            SyncAttackTime(shoot.AttackSpeed);
-        }
 
         if (TryGetComponent(out Health h))
         {
@@ -44,92 +48,33 @@ public class ControlMob : MonoBehaviour
     void Update()
     {
         var destination = gameObject.transform;
-
-        // If the npc is dead, do not do any more animation
-        if (npcState == NPCState.Dead)
+        if (health.HP <= 0)
         {
-            handleDestination.Destination = destination;
+            npcState = NPCState.Dead;
+            handleAnimationController.AnimState = AnimationState.Dying;
+            return;
+        }
+        
+        if (leader == null)
+        {
+            pathTime += Time.deltaTime;
+            if (pathTime >= maxPathTime)
+            {
+                handleDestination.ClearDestination();
+
+                pathTime = 0;
+                handleDestination.SetDestinationWithPosition(Wander());
+                handleAnimationController.AnimState = AnimationState.Walking;
+            }
             return;
         }
 
-        destination = player.transform;
-        npcState = NPCState.FollowingPlayer;
-
-
-
-        if (shooting != null && shooting.Ammo <= shooting.MaxAmmo * 0.2)
+        if (Vector3.Distance(transform.position, Leader.transform.position) >= 2)
         {
-            npcState = NPCState.LookingForAmmo;
-            var ammoPacks = GameObject.FindGameObjectsWithTag("ammo");
-            var minDistance = float.MaxValue;
-            var closestAmmoPack = gameObject;
-            foreach (var ammoPack in ammoPacks)
-            {
-                var distance = Vector3.Distance(transform.position, ammoPack.transform.position);
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    closestAmmoPack = ammoPack;
-                }
-            }
-
-            // If the ammo pack has been found, assign it.
-            if (closestAmmoPack != gameObject)
-            {
-                destination = closestAmmoPack.transform;
-            }
-        }
-
-        if (health != null)
-        {
-            if (health.HP <= 0)
-            {
-                npcState = NPCState.Dead;
-            }
-
-            if (health.HP <= health.MaxHP * 0.2 && shooting.Ammo > shooting.MaxAmmo * 0.2 )
-            {
-                npcState = NPCState.LookingForHealth;
-                // Search for all healthpacks and go towards the nearest one.
-                var healthPacks = GameObject.FindGameObjectsWithTag("health");
-                var minDistance = float.MaxValue;
-                var closestHealthPack = gameObject;
-                foreach (var healthPack in healthPacks)
-                {
-                    var distance = Vector3.Distance(transform.position, healthPack.transform.position);
-                    if (distance < minDistance)
-                    {
-                        minDistance = distance;
-                        closestHealthPack = healthPack;
-                    }
-                }
-
-                // If the ammo pack has been found, assign it.
-                if (closestHealthPack != gameObject)
-                {
-                    destination = closestHealthPack.transform;
-                }
-            }
+            destination = Leader.transform;
+            npcState = NPCState.FollowingLeader;
         }
         
-        // If the enemy is still following the player, try to shoot
-        // Check if the enemy can shoot, if the player not already in shooting animation then reset shot timer.
-        if (shooting != null && shooting.Ammo > 0 && npcState == NPCState.FollowingPlayer)
-        {
-            Debug.Log(shooting.Ammo);
-            if (handleAnimationController.AnimState != AnimationState.Shooting)
-            {
-                shooting.ResetShootingTimer();
-            }
-
-            if (shooting.ReadyToShoot())
-            {
-                shooting.Shoot();
-            }
-
-            npcState = NPCState.Shooting;
-        }
-
         handleDestination.Destination = destination;
 
         // Go through each of the supported scripts to check which should run based on the npc state
@@ -142,6 +87,7 @@ public class ControlMob : MonoBehaviour
             case NPCState.FollowingWaypoints:
             case NPCState.LookingForAmmo:
             case NPCState.LookingForHealth:
+            case NPCState.FollowingLeader:
                 handleAnimationController.AnimState = AnimationState.Walking;
                 break;
             case NPCState.Dead:
@@ -155,9 +101,30 @@ public class ControlMob : MonoBehaviour
         }
     }
 
-    private void SyncAttackTime(float attackDelay)
+    private Vector3 Wander()
     {
-        animator.SetFloat("AttackSpeedMultiplier",
-            1 / (shootingAnimation.length * 1 / (shootingAnimation.length * attackDelay)));
+
+        npcState = NPCState.Wandering;
+        // Code from https://forum.unity.com/threads/solved-random-wander-ai-using-navmesh.327950/
+        // // Taken from https://answers.unity.com/questions/1661755/how-to-instantiate-objects-in-a-circle-formation-a.html
+
+        
+        var rnd = Random.value;
+        /* Distance around the circle */  
+        var radians = 10 * Math.PI / rnd;
+         
+        /* Get the vector direction */ 
+        var vertical = MathF.Sin((float)radians);
+        var horizontal = MathF.Cos((float)radians); 
+         
+        var spawnDir = new Vector3 (horizontal, 0, vertical);
+         
+        /* Get the spawn position */ 
+        var randomDirection = transform.position + spawnDir * 2; // Radius is just the distance away from the point
+
+        NavMeshHit navHit;
+           
+        NavMesh.SamplePosition (randomDirection, out navHit, 2, -1);
+        return navHit.position;
     }
 }
