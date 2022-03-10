@@ -7,5 +7,6 @@ public enum AnimationState {
     Walking,
     Shooting,
     Dying,
+    Punching,
     Default,
 }

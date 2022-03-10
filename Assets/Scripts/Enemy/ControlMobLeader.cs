@@ -24,10 +24,11 @@ public class ControlMobLeader : MonoBehaviour
     [SerializeField] private int maxMobMembers;
     private List<GameObject> mobMembers = new List<GameObject>();
     private WaypointMovement waypointMovement;
-
+    private ReactAttacked reactAttacked;
     // Start is called before the first frame update
     void Start()
     {
+        reactAttacked = GetComponent<ReactAttacked>();
         waypointMovement = GetComponent<WaypointMovement>();
         senses = GetComponent<Senses>();
         spawnMobMembers();
@@ -82,11 +83,11 @@ public class ControlMobLeader : MonoBehaviour
                 mobMember.GetComponent<ControlMob>().IsFollowingPlayer = false;
             }
             
-            if (!senses.CanSensePlayer() || mobMembers.Count < maxMobMembers)
+            if (!senses.CanSensePlayer() || mobMembers.Count < maxMobMembers )
             {
 
             }
-            else
+            else if(senses.CanSensePlayer()  || reactAttacked.WasAttacked)
             {
                 destination = player.transform;
                 npcState = NPCState.FollowingPlayer;

@@ -24,6 +24,8 @@ public class Shooting : MonoBehaviour
     private void Start()
     {
         Ammo = MaxAmmo;
+        Debug.Log(Ammo);
+        Debug.Log(MaxAmmo);
     }
 
     public bool Shoot()

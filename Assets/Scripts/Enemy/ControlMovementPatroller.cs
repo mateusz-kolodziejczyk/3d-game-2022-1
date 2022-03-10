@@ -21,10 +21,16 @@ public class ControlMovementPatroller : MonoBehaviour
 
     private Animator animator;
 
+    private ReactAttacked reactAttacked;
+
     private WaypointMovement waypointMovement;
+
+    private MeleeAttack meleeAttack;
     // Start is called before the first frame update
     void Start()
     {
+        meleeAttack = GetComponent<MeleeAttack>();
+        reactAttacked = GetComponent<ReactAttacked>();
         animator = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player");
         handleDestination = GetComponent<HandleDestination>();
@@ -70,13 +76,17 @@ public class ControlMovementPatroller : MonoBehaviour
         }
         // Check each of the scripts to see what the npc state should update to.
         // Check senses
-        if (senses != null && senses.CanSensePlayer())
+        if (senses != null && senses.CanSensePlayer() || reactAttacked.WasAttacked)
         {
             destination = player.transform;
             npcState = NPCState.FollowingPlayer;
 
+            // Check if the enemy is in range and ready to melee attack
+            if(Vector3.Distance(transform.position, destination.position) <= 3){
+                npcState = NPCState.Punching;
+            }
             // Check if the player can shoot, if the player not already in shooting animation then reset shot timer.
-            if (shooting != null && shooting.Ammo > 0)
+            if (shooting != null && shooting.Ammo > 0 && npcState != NPCState.Punching)
             {
                 Debug.Log(shooting.Ammo);
                 if (handleAnimationController.AnimState != AnimationState.Shooting)
@@ -123,13 +133,18 @@ public class ControlMovementPatroller : MonoBehaviour
             case NPCState.Shooting:
                 handleAnimationController.AnimState = AnimationState.Shooting;
                 break;
+            case NPCState.Punching:
+                handleAnimationController.AnimState = AnimationState.Punching;
+                break;
             default:
                 break;
         }
     }
 
+ 
     private void SyncAttackTime(float attackDelay)
     {
-        animator.SetFloat("AttackSpeedMultiplier", SyncAttackSpeed.GetNewMultiplier(shootingAnimation, attackDelay));
+        animator.SetFloat("AttackSpeedMultiplier",
+            1 / (shootingAnimation.length * 1 / (shootingAnimation.length * attackDelay)));
     }
 }

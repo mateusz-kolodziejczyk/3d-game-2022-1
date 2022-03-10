@@ -2844,7 +2844,7 @@ GameObject:
   - component: {fileID: 919132148787743459}
   m_Layer: 8
   m_Name: Patroller
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2974,8 +2974,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e94ddeedb826e41c88541e89bab950f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmo: 10
-  attackSpeed: 0.5
+  maxAmmo: 50
+  attackSpeed: 3
 --- !u!114 &6599159259984883198
 MonoBehaviour:
   m_ObjectHideFlags: 0

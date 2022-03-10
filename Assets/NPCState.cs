@@ -12,5 +12,6 @@
         FollowingLeader,
         Wandering,
         AttackingEnemies,
+        Punching,
     }
 }

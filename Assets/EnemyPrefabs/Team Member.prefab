@@ -1376,7 +1376,7 @@ GameObject:
   - component: {fileID: -3081435922049411451}
   m_Layer: 8
   m_Name: Team Member
-  m_TagString: Untagged
+  m_TagString: friendly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1570,7 +1570,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9098a6208f294792ade2cdb06fc80a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingAnimation: {fileID: 0}
 --- !u!1 &3092473824396617525
 GameObject:
   m_ObjectHideFlags: 0

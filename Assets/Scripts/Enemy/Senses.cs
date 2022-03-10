@@ -34,7 +34,7 @@ public class Senses : MonoBehaviour
     private bool Smell()
     {
         GameObject[] allBCs = GameObject.FindGameObjectsWithTag("breadcrumb");
-        float minDistance = 10;
+        float minDistance = 20 ;
         bool detectedBC = false;
         foreach (var o in allBCs)
         {
@@ -49,7 +49,7 @@ public class Senses : MonoBehaviour
     private bool Listen()
     {
         float distance = Vector3.Distance(transform.position, player.transform.position);
-        return distance < 30;
+        return distance < 15;
     }
 
     private bool Look()

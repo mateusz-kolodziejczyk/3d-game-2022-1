@@ -2025,6 +2025,7 @@ GameObject:
   - component: {fileID: 4506675377915978514}
   - component: {fileID: 4506675377915978513}
   - component: {fileID: 5179383905484563513}
+  - component: {fileID: 6305764452466659965}
   m_Layer: 8
   m_Name: Intelligent Patroller
   m_TagString: enemy
@@ -2117,7 +2118,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 5
+  m_Speed: 3
   m_Acceleration: 150
   avoidancePriority: 50
   m_AngularSpeed: 360
@@ -2158,8 +2159,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e94ddeedb826e41c88541e89bab950f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmo: 10
-  attackSpeed: 0.5
+  maxAmmo: 300
+  attackSpeed: 5
 --- !u!114 &7628931549893493773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2221,7 +2222,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5fcc1e5de8943da8ec8338ba7bae8fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingAnimation: {fileID: 0}
+  shootingAnimation: {fileID: -203655887218126122, guid: 349c935c5d9bd3a40bc14fa6171cdc86, type: 3}
+--- !u!114 &6305764452466659965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5914548146980127679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6fcc67f7cfd74b5091c02630f947145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6198132694572096134
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,9 +22,12 @@ public class ControlIntelligentPatroller : MonoBehaviour
     private Animator animator;
 
     private WaypointMovement waypointMovement;
+    private ReactAttacked reactAttacked;
+
     // Start is called before the first frame update
     void Start()
     {
+        reactAttacked = GetComponent<ReactAttacked>();
         animator = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player");
         handleDestination = GetComponent<HandleDestination>();
@@ -70,7 +73,7 @@ public class ControlIntelligentPatroller : MonoBehaviour
         }
         // Check each of the scripts to see what the npc state should update to.
         // Check senses
-        if (senses != null && senses.CanSensePlayer())
+        if (senses != null && senses.CanSensePlayer()  || reactAttacked.WasAttacked)
         {
             destination = player.transform;
             npcState = NPCState.FollowingPlayer;
@@ -78,7 +81,6 @@ public class ControlIntelligentPatroller : MonoBehaviour
             // Check if the player can shoot, if the player not already in shooting animation then reset shot timer.
             if (shooting != null && shooting.Ammo > 0)
             {
-                Debug.Log(shooting.Ammo);
                 if (handleAnimationController.AnimState != AnimationState.Shooting)
                 {
                     shooting.ResetShootingTimer();

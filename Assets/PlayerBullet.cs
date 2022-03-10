@@ -15,6 +15,8 @@ public class PlayerBullet : MonoBehaviour
         if (other.collider.CompareTag("enemy"))
         {
             var health = other.gameObject.GetComponent<Health>();
+        
+            other.gameObject.GetComponent<ReactAttacked>().WasAttacked = true;
             health.HP -= Damage;
             Destroy(gameObject);
         }
