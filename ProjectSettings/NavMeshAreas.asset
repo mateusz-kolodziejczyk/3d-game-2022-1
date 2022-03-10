@@ -17,14 +17,14 @@ NavMeshProjectSettings:
     cost: 10
   - name: Inaccessible
     cost: 1
-  - name: 
+  - name: Fast Bridge
     cost: 1
-  - name: 
+  - name: Shaky Bridge
+    cost: 2
+  - name: High Platform
     cost: 1
-  - name: 
-    cost: 1
-  - name: 
-    cost: 1
+  - name: Low Platform
+    cost: 2
   - name: 
     cost: 1
   - name: 
