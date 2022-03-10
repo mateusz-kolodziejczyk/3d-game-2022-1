@@ -8,6 +8,7 @@ TagManager:
   - health
   - ammo
   - enemy
+  - friendly
   layers:
   - Default
   - TransparentFX
