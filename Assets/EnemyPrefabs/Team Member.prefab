@@ -1373,7 +1373,7 @@ GameObject:
   - component: {fileID: 4961828744549618565}
   - component: {fileID: 4961828744549618620}
   - component: {fileID: 4961828744549618623}
-  - component: {fileID: 7550099685349179}
+  - component: {fileID: -3081435922049411451}
   m_Layer: 8
   m_Name: Team Member
   m_TagString: Untagged
@@ -1558,7 +1558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdde95c05c4da3640a25265e7814f714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7550099685349179
+--- !u!114 &-3081435922049411451
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1567,10 +1567,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2901914269902680849}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7334474b91f6d8349ad5d950ad6f2c06, type: 3}
+  m_Script: {fileID: 11500000, guid: 9098a6208f294792ade2cdb06fc80a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingAnimation: {fileID: -203655887218126122, guid: 349c935c5d9bd3a40bc14fa6171cdc86, type: 3}
+  shootingAnimation: {fileID: 0}
 --- !u!1 &3092473824396617525
 GameObject:
   m_ObjectHideFlags: 0

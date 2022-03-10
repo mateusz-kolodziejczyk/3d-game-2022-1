@@ -11,5 +11,6 @@
         Dead,
         FollowingLeader,
         Wandering,
+        AttackingEnemies,
     }
 }

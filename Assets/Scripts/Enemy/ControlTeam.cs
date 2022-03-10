@@ -8,31 +8,24 @@ using UnityEngine.XR;
 
 public class ControlTeam : MonoBehaviour
 {
-    [SerializeField] private AnimationClip shootingAnimation;
     private NPCState npcState = NPCState.Idle;
     private HandleDestination handleDestination;
 
     private GameObject player;
 
+    private GameObject enemyTarget;
+
     private HandleAnimationController handleAnimationController;
-    private Shooting shooting;
     private Health health;
 
-    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player");
         handleDestination = GetComponent<HandleDestination>();
         handleAnimationController = GetComponent<HandleAnimationController>();
 
-        if (TryGetComponent(out Shooting shoot))
-        {
-            shooting = shoot;
-            SyncAttackTime(shoot.AttackSpeed);
-        }
 
         if (TryGetComponent(out Health h))
         {
@@ -55,80 +48,12 @@ public class ControlTeam : MonoBehaviour
         destination = player.transform;
         npcState = NPCState.FollowingPlayer;
 
-
-
-        if (shooting != null && shooting.Ammo <= shooting.MaxAmmo * 0.2)
+        if (enemyTarget != null)
         {
-            npcState = NPCState.LookingForAmmo;
-            var ammoPacks = GameObject.FindGameObjectsWithTag("ammo");
-            var minDistance = float.MaxValue;
-            var closestAmmoPack = gameObject;
-            foreach (var ammoPack in ammoPacks)
-            {
-                var distance = Vector3.Distance(transform.position, ammoPack.transform.position);
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    closestAmmoPack = ammoPack;
-                }
-            }
-
-            // If the ammo pack has been found, assign it.
-            if (closestAmmoPack != gameObject)
-            {
-                destination = closestAmmoPack.transform;
-            }
-        }
-
-        if (health != null)
-        {
-            if (health.HP <= 0)
-            {
-                npcState = NPCState.Dead;
-            }
-
-            if (health.HP <= health.MaxHP * 0.2 && shooting.Ammo > shooting.MaxAmmo * 0.2 )
-            {
-                npcState = NPCState.LookingForHealth;
-                // Search for all healthpacks and go towards the nearest one.
-                var healthPacks = GameObject.FindGameObjectsWithTag("health");
-                var minDistance = float.MaxValue;
-                var closestHealthPack = gameObject;
-                foreach (var healthPack in healthPacks)
-                {
-                    var distance = Vector3.Distance(transform.position, healthPack.transform.position);
-                    if (distance < minDistance)
-                    {
-                        minDistance = distance;
-                        closestHealthPack = healthPack;
-                    }
-                }
-
-                // If the ammo pack has been found, assign it.
-                if (closestHealthPack != gameObject)
-                {
-                    destination = closestHealthPack.transform;
-                }
-            }
+            destination = enemyTarget.transform;
+            npcState = NPCState.AttackingEnemies;
         }
         
-        // If the enemy is still following the player, try to shoot
-        // Check if the enemy can shoot, if the player not already in shooting animation then reset shot timer.
-        if (shooting != null && shooting.Ammo > 0 && npcState == NPCState.FollowingPlayer)
-        {
-            Debug.Log(shooting.Ammo);
-            if (handleAnimationController.AnimState != AnimationState.Shooting)
-            {
-                shooting.ResetShootingTimer();
-            }
-
-            if (shooting.ReadyToShoot())
-            {
-                shooting.Shoot();
-            }
-
-            npcState = NPCState.Shooting;
-        }
         if (health.HP <= 0)
         {
             npcState = NPCState.Dead;
@@ -145,6 +70,7 @@ public class ControlTeam : MonoBehaviour
             case NPCState.FollowingWaypoints:
             case NPCState.LookingForAmmo:
             case NPCState.LookingForHealth:
+            case NPCState.AttackingEnemies:
                 handleAnimationController.AnimState = AnimationState.Walking;
                 break;
             case NPCState.Dead:
@@ -157,10 +83,27 @@ public class ControlTeam : MonoBehaviour
                 break;
         }
     }
-
-    private void SyncAttackTime(float attackDelay)
+    
+    // This targets the closest enemy found.
+    public void TargetEnemy()
     {
-        animator.SetFloat("AttackSpeedMultiplier",
-            1 / (shootingAnimation.length * 1 / (shootingAnimation.length * attackDelay)));
+        var enemies = GameObject.FindGameObjectsWithTag("enemy");
+        var minDist = float.MaxValue;
+        GameObject closestEnemy = null;
+
+        foreach (var enemy in enemies)
+        {
+            if (Vector3.Distance(enemy.transform.position, transform.position) < minDist)
+            {
+                closestEnemy = enemy;
+            }
+        }
+
+        enemyTarget = closestEnemy;
+    }
+
+    public void StopTargettingEnemy()
+    {
+        enemyTarget = null;
     }
 }
