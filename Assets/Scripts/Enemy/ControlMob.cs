@@ -22,6 +22,8 @@ public class ControlMob : MonoBehaviour
         set => leader = value;
     }
 
+    public bool IsFollowingPlayer { get; set; } = false;
+
     private HandleAnimationController handleAnimationController;
     private Health health;
 
@@ -73,6 +75,12 @@ public class ControlMob : MonoBehaviour
         {
             destination = Leader.transform;
             npcState = NPCState.FollowingLeader;
+        }
+
+        if (IsFollowingPlayer)
+        {
+            npcState = NPCState.FollowingPlayer;
+            destination = player.transform;
         }
         
         handleDestination.Destination = destination;

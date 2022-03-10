@@ -49,15 +49,15 @@ public class Senses : MonoBehaviour
     private bool Listen()
     {
         float distance = Vector3.Distance(transform.position, player.transform.position);
-        return distance < -1;
+        return distance < 30;
     }
 
     private bool Look()
     {
         var ray = new Ray();
         RaycastHit hit;
-        float castingDistance = 20;
-        ray.origin = transform.position + Vector3.up * 0.7f;
+        float castingDistance = 50;
+        ray.origin = new Vector3(transform.position.x, player.transform.position.y, transform.position.z) + Vector3.up * 0.7f;
         ray.direction = transform.forward * castingDistance;
         Debug.DrawRay(ray.origin, ray.direction, Color.red);
         if (Physics.Raycast(ray.origin, ray.direction, out hit, castingDistance))

@@ -9,7 +9,7 @@ public class Health : MonoBehaviour
    [SerializeField] private float maxHP;
 
    private float deathCounter = 0;
-   private float deathTime = 5;
+   private float deathTime = 2;
 
    private void Update()
    {

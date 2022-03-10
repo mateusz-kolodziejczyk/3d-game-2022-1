@@ -39,7 +39,7 @@ public class WaypointMovement : MonoBehaviour
     public Transform GetNextDestination()
     {
         var destination = waypoints[currentPath][wpCount].transform;
-        if (Vector3.Distance(transform.position, destination.position) < 1.0)
+        if (Vector3.Distance(transform.position, destination.position) < 5.0)
         {
             if (followsRandomWaypoints)
             {

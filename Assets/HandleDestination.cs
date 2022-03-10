@@ -30,7 +30,6 @@ public class HandleDestination : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(agent.destination);
     }
 
     public void ClearDestination()

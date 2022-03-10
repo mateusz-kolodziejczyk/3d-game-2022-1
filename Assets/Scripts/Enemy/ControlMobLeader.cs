@@ -17,16 +17,19 @@ public class ControlMobLeader : MonoBehaviour
 
     private HandleAnimationController handleAnimationController;
     private Health health;
-
+    private Senses senses;
     private Animator animator;
 
     [SerializeField] private GameObject mobMemberPrefab;
     [SerializeField] private int maxMobMembers;
     private List<GameObject> mobMembers = new List<GameObject>();
+    private WaypointMovement waypointMovement;
 
     // Start is called before the first frame update
     void Start()
     {
+        waypointMovement = GetComponent<WaypointMovement>();
+        senses = GetComponent<Senses>();
         spawnMobMembers();
         animator = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player");
@@ -50,9 +53,50 @@ public class ControlMobLeader : MonoBehaviour
             handleDestination.Destination = destination;
             return;
         }
+        if (waypointMovement != null)
+        {
+            destination = waypointMovement.GetNextDestination();
+            npcState = NPCState.FollowingWaypoints;
+        }
 
-        destination = player.transform;
-        npcState = NPCState.FollowingPlayer;
+        Debug.Log(mobMembers.Contains(null));
+        Debug.Log(mobMembers.Count);
+        // Check senses
+        if (senses != null)
+        {
+            for (int i = 0; i < mobMembers.Count; i++)
+            {
+                var mobMember = mobMembers[i];
+                if (mobMember == null)
+                {
+                    mobMembers.RemoveAt(i);
+                    i--;
+                    continue;
+                }
+
+                mobMember.GetComponent<ControlMob>().IsFollowingPlayer = false;
+
+            }
+            foreach (var mobMember in mobMembers)
+            {
+                mobMember.GetComponent<ControlMob>().IsFollowingPlayer = false;
+            }
+            
+            if (!senses.CanSensePlayer() || mobMembers.Count < maxMobMembers)
+            {
+
+            }
+            else
+            {
+                destination = player.transform;
+                npcState = NPCState.FollowingPlayer;
+                foreach (var mobMember in mobMembers)
+                {
+                    mobMember.GetComponent<ControlMob>().IsFollowingPlayer = true;
+                }
+            }
+  
+        }
         
         if (health.HP <= 0)
         {
