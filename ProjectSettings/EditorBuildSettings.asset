@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Enemy56Showcase.unity
+    path: Assets/Scenes/56Showcase.unity
     guid: a3f8656653b4a624e9cac55e456aa097
   - enabled: 1
-    path: Assets/Scenes/level2.unity
+    path: Assets/Scenes/12Showcase.unity
     guid: c45ba74f79b862b44884d73177ad5773
+  - enabled: 1
+    path: Assets/Scenes/Win.unity
+    guid: 63a2401f13c686645b19d98eea932e2b
   m_configObjects: {}

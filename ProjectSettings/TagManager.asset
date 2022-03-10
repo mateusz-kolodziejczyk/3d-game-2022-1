@@ -13,6 +13,11 @@ TagManager:
   - healthspawner
   - ammospawner
   - collectable
+  - healthtext
+  - ammotext
+  - path
+  - AmbushSite
+  - friendlyHitTrigger
   layers:
   - Default
   - TransparentFX

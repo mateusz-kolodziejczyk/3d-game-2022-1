@@ -32,9 +32,12 @@ public class ControlMob : MonoBehaviour
     private float maxPathTime = 0.5f;
 
     private float pathTime = 4;
+
+    private MeleeAttack meleeAttack;
     // Start is called before the first frame update
     void Awake()
     {
+        meleeAttack = GetComponent<MeleeAttack>();
         animator = GetComponent<Animator>();
         player = GameObject.FindWithTag("Player");
         handleDestination = GetComponent<HandleDestination>();
@@ -81,6 +84,10 @@ public class ControlMob : MonoBehaviour
         {
             npcState = NPCState.FollowingPlayer;
             destination = player.transform;
+            // Check if the enemy is in range and ready to melee attack
+            if(Vector3.Distance(transform.position, destination.position) <= 5){
+                npcState = NPCState.Punching;
+            }
         }
         
         handleDestination.Destination = destination;
@@ -103,6 +110,9 @@ public class ControlMob : MonoBehaviour
                 break;
             case NPCState.Shooting:
                 handleAnimationController.AnimState = AnimationState.Shooting;
+                break;
+            case NPCState.Punching:
+                handleAnimationController.AnimState = AnimationState.Punching;
                 break;
             default:
                 break;

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2897306413549073398}
   - component: {fileID: 4456126062390009982}
   - component: {fileID: 5569930932004243184}
-  - component: {fileID: 466868881370429543}
   - component: {fileID: 5978445977690245101}
   m_Layer: 11
   m_Name: Ammo Spawner
@@ -85,19 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &466868881370429543
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1401172514893082823}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5978445977690245101
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,5 +13,8 @@
         Wandering,
         AttackingEnemies,
         Punching,
+        Fleeing,
+        ThrowGrenade,
+        GoToAmbush
     }
 }

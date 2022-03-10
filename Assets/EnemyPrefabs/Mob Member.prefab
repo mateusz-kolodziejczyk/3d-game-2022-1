@@ -1348,6 +1348,7 @@ GameObject:
   - component: {fileID: 6739855950234576863}
   - component: {fileID: 6739855950234576860}
   - component: {fileID: 5372590299433264655}
+  - component: {fileID: 528837551427664490}
   m_Layer: 8
   m_Name: Mob Member
   m_TagString: enemy
@@ -1514,6 +1515,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aef2a3642e0644be91516dd245144d49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &528837551427664490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3537181769114879858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b3fd2e06bf59474bb1b3d8b8178d2c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageToNPC: 10
 --- !u!1 &3662254813077660713
 GameObject:
   m_ObjectHideFlags: 0

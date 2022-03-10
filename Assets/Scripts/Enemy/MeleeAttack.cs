@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,18 @@ public class MeleeAttack : MonoBehaviour
     }
 
     void Attack(Health otherHealth){
-        otherHealth.HP -= damageToNPC;
+        otherHealth.HP -= damageToNPC * Time.deltaTime;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("enemy") && !isEnemy)
+        {
+            Attack(other.transform.parent.GetComponent<Health>());
+        }
+        else if (other.CompareTag("friendlyHitTrigger") && isEnemy)
+        {
+            Attack(other.transform.parent.GetComponent<Health>());
+        }
     }
 }

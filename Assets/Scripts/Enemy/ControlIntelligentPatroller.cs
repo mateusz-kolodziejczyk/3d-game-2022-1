@@ -66,6 +66,32 @@ public class ControlIntelligentPatroller : MonoBehaviour
             return;
         }
         
+        // If fleeing, keep fleeing until healthpack spawns
+        if (npcState == NPCState.Fleeing)
+        {
+            handleDestination.Destination = waypointMovement.GetNextDestination();
+            // Search for all healthpacks and go towards the nearest one.
+            var healthPacks = GameObject.FindGameObjectsWithTag("health");
+            var minDistance = float.MaxValue;
+            var closestHealthPack = gameObject;
+            foreach (var healthPack in healthPacks)
+            {
+                var distance = Vector3.Distance(transform.position, healthPack.transform.position);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestHealthPack = healthPack;
+                }
+            }
+
+            // If the health pack has been found, stop fleeing
+            if (closestHealthPack != gameObject)
+            {
+                destination = closestHealthPack.transform;
+                npcState = NPCState.LookingForHealth;
+            }
+        }
+        
         if (waypointMovement != null)
         {
             destination = waypointMovement.GetNextDestination();
@@ -73,7 +99,7 @@ public class ControlIntelligentPatroller : MonoBehaviour
         }
         // Check each of the scripts to see what the npc state should update to.
         // Check senses
-        if (senses != null && senses.CanSensePlayer()  || reactAttacked.WasAttacked)
+        if (senses != null && senses.CanSensePlayer() || reactAttacked.WasAttacked )
         {
             destination = player.transform;
             npcState = NPCState.FollowingPlayer;
@@ -146,6 +172,12 @@ public class ControlIntelligentPatroller : MonoBehaviour
                 {
                     destination = closestHealthPack.transform;
                 }
+                // Else start fleeing
+                else
+                {
+                    npcState = NPCState.Fleeing;
+                    destination = waypointMovement.GetNextDestination();
+                }
             }
         }
         if (health.HP <= 0)
@@ -165,6 +197,9 @@ public class ControlIntelligentPatroller : MonoBehaviour
             case NPCState.LookingForAmmo:
             case NPCState.LookingForHealth:
                 handleAnimationController.AnimState = AnimationState.Walking;
+                break;
+            case NPCState.Fleeing:
+                handleAnimationController.AnimState = AnimationState.Running;
                 break;
             case NPCState.Dead:
                 handleAnimationController.AnimState = AnimationState.Dying;

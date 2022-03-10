@@ -59,6 +59,8 @@ public class Shooting : MonoBehaviour
         if (other.CompareTag("ammo"))
         {
             Ammo = MaxAmmo;
+            other.gameObject.SetActive(false);
+
         }
     }
 }

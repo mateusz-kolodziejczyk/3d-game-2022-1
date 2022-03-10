@@ -1277,7 +1277,7 @@ GameObject:
   - component: {fileID: 5289369803331366782}
   - component: {fileID: 5289369803331366727}
   - component: {fileID: 5289369803331366724}
-  - component: {fileID: 983680264193321920}
+  - component: {fileID: 6589988065609133787}
   m_Layer: 8
   m_Name: Sniper
   m_TagString: enemy
@@ -1351,7 +1351,7 @@ Animator:
   m_GameObject: {fileID: 2736432227433975786}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1ac6ccc26f9f3474b82dbc52ad6bf2cd, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2da263f48207a450d9da19aa8b4acf8b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1395,9 +1395,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ba4bd1856cb4942b0bab5f428f36e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paths:
-  - {fileID: 0}
-  - {fileID: 0}
   followsRandomWaypoints: 1
   followsRandomPaths: 0
 --- !u!114 &2045812646017119772
@@ -1463,7 +1460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdde95c05c4da3640a25265e7814f714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &983680264193321920
+--- !u!114 &6589988065609133787
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1472,10 +1469,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2736432227433975786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7334474b91f6d8349ad5d950ad6f2c06, type: 3}
+  m_Script: {fileID: 11500000, guid: ce3c9e76b6cd941448fd8ce382804722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingAnimation: {fileID: -203655887218126122, guid: 349c935c5d9bd3a40bc14fa6171cdc86, type: 3}
 --- !u!1 &2755547463443279025
 GameObject:
   m_ObjectHideFlags: 0

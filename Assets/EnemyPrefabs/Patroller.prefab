@@ -2842,6 +2842,7 @@ GameObject:
   - component: {fileID: 919132148787743457}
   - component: {fileID: 919132148787743458}
   - component: {fileID: 919132148787743459}
+  - component: {fileID: 8567845164492469491}
   m_Layer: 8
   m_Name: Patroller
   m_TagString: enemy
@@ -2959,8 +2960,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ba4bd1856cb4942b0bab5f428f36e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paths:
-  - {fileID: 0}
   followsRandomWaypoints: 0
   followsRandomPaths: 0
 --- !u!114 &6467973757926822842
@@ -2989,7 +2988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f830461a65bdc4b68ab6ce3859e8738c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 50
+  maxHP: 100
 --- !u!114 &919132148787743448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3039,6 +3038,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootingAnimation: {fileID: -203655887218126122, guid: 349c935c5d9bd3a40bc14fa6171cdc86, type: 3}
+--- !u!114 &8567845164492469491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6944329085879249484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6fcc67f7cfd74b5091c02630f947145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7129252818510937704
 GameObject:
   m_ObjectHideFlags: 0

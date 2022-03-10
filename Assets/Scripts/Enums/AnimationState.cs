@@ -9,4 +9,8 @@ public enum AnimationState {
     Dying,
     Punching,
     Default,
+    Running,
+    Fleeing,
+    ThrowGrenade,
+    GoToAmbush
 }

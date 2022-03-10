@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerShoot : MonoBehaviour
 {
@@ -31,11 +33,30 @@ public class PlayerShoot : MonoBehaviour
             bullet.GetComponent<PlayerBullet>().Damage = damage;
             ammo --;
         }
+        UpdateAmmoText();
     }
 
     private GameObject SpawnBullet()
     {
         var cameraTransform = camera.transform;
         return Instantiate(projectile, transform.position, cameraTransform.rotation);
+    }
+
+    private void UpdateAmmoText()
+    {
+        var ammoText = GameObject.FindWithTag("ammotext");
+        if(ammoText != null && ammoText.TryGetComponent(out Text t))
+        {
+            t.text = $"Health: {ammo}/{maxAmmo}";
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("ammo"))
+        {
+            ammo = maxAmmo;
+            other.gameObject.SetActive(false);
+        }
     }
 }

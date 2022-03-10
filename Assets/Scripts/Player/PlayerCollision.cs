@@ -13,12 +13,22 @@ public class PlayerCollision : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log($"Collided! {other.tag}");
-
         if (other.CompareTag("enemy"))
         {
             health.HP -= health.MaxHP * 0.2f;
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("collectable"))
+        {
+            var o = GameObject.FindWithTag("GameController");
+            if (o.TryGetComponent(out CollectableManager collectableManager))
+            {
+                collectableManager.Collect();
+            }
+            other.gameObject.SetActive(false);
+        }
+    }
 }

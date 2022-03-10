@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WaypointMovement : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> paths;
+    private List<GameObject> paths;
     private HandleDestination handleDestination;
 
     private List<List<GameObject>> waypoints = new List<List<GameObject>>();
@@ -19,6 +20,7 @@ public class WaypointMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        paths = GameObject.FindGameObjectsWithTag("path").ToList();
         handleDestination = GetComponent<HandleDestination>();
         for (int i = 0; i < paths.Count; i++)
         {

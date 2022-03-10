@@ -52,6 +52,11 @@ public class ControlTeam : MonoBehaviour
         {
             destination = enemyTarget.transform;
             npcState = NPCState.AttackingEnemies;
+            // Check if the enemy is in range and ready to melee attack
+            Debug.Log(Vector3.Distance(transform.position, destination.position));
+            if(Vector3.Distance(transform.position, destination.position) <= 5){
+                npcState = NPCState.Punching;
+            }
         }
         
         if (health.HP <= 0)
@@ -78,6 +83,9 @@ public class ControlTeam : MonoBehaviour
                 break;
             case NPCState.Shooting:
                 handleAnimationController.AnimState = AnimationState.Shooting;
+                break;
+            case NPCState.Punching:
+                handleAnimationController.AnimState = AnimationState.Punching;
                 break;
             default:
                 break;

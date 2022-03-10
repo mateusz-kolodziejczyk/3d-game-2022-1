@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
@@ -28,6 +29,11 @@ public class Health : MonoBehaviour
          }
 
       }
+
+      if (gameObject.CompareTag("Player"))
+      {
+         UpdateHealthText();
+      }
    }
 
    public float HP
@@ -40,7 +46,7 @@ public class Health : MonoBehaviour
    }
    private void Start()
    {
-      HP = maxHP;
+      HP = MaxHP;
    }
 
    private void OnTriggerEnter(Collider other)
@@ -48,6 +54,16 @@ public class Health : MonoBehaviour
       if (other.CompareTag("health"))
       {
          HP = MaxHP;
+         other.gameObject.SetActive(false);
+      }
+   }
+
+   private void UpdateHealthText()
+   {
+      var healthText = GameObject.FindWithTag("healthtext");
+      if(healthText != null && healthText.TryGetComponent(out Text t))
+      {
+         t.text = $"Health: {HP}/{MaxHP}";
       }
    }
    
