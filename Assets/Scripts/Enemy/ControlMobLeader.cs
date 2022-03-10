@@ -60,8 +60,6 @@ public class ControlMobLeader : MonoBehaviour
             npcState = NPCState.FollowingWaypoints;
         }
 
-        Debug.Log(mobMembers.Contains(null));
-        Debug.Log(mobMembers.Count);
         // Check senses
         if (senses != null)
         {
