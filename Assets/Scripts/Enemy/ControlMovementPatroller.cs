@@ -130,6 +130,6 @@ public class ControlMovementPatroller : MonoBehaviour
 
     private void SyncAttackTime(float attackDelay)
     {
-        animator.SetFloat("AttackSpeedMultiplier", shootingAnimation.length * 1/(shootingAnimation.length * attackDelay));
+        animator.SetFloat("AttackSpeedMultiplier", SyncAttackSpeed.GetNewMultiplier(shootingAnimation, attackDelay));
     }
 }
