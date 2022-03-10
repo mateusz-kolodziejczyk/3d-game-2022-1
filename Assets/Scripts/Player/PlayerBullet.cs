@@ -16,7 +16,9 @@ public class PlayerBullet : MonoBehaviour
         {
             var health = other.gameObject.GetComponent<Health>();
         
-            other.gameObject.GetComponent<ReactAttacked>().WasAttacked = true;
+            if(other.gameObject.TryGetComponent(out ReactAttacked reactAttacked)){
+                other.gameObject.GetComponent<ReactAttacked>().WasAttacked = true;
+            }
             health.HP -= Damage;
             Destroy(gameObject);
         }

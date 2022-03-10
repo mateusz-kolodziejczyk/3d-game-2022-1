@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 4483176014234289364}
   - component: {fileID: 4483176014234289365}
   - component: {fileID: 4483176014250422911}
+  - component: {fileID: 1934546250}
   m_Layer: 7
   m_Name: player
   m_TagString: Player
@@ -427,6 +428,7 @@ MonoBehaviour:
   projectile: {fileID: 592824374643486153, guid: 74e9bcce183eafd44a4b70cda7c2ef55, type: 3}
   camera: {fileID: 4483176014794720899}
   bulletForce: 1000
+  maxAmmo: 20
 --- !u!114 &4483176014250422911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,3 +443,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   breadCrumb: {fileID: 4774181131746273336, guid: eb85365435d31c14ea07cc8e779bcd1a, type: 3}
   timeBetweenSpawns: 0.1
+--- !u!114 &1934546250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4483176014796227747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f830461a65bdc4b68ab6ce3859e8738c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100

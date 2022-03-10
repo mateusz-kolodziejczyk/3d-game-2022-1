@@ -6,11 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class PlayerCollision : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision other)
+
+    private Health health;
+    private void Start(){
+        health = GetComponent<Health>();
+    }
+    private void OnTriggerStay(Collider other)
     {
-        if (other.collider.CompareTag("enemy"))
+        Debug.Log($"Collided! {other.tag}");
+
+        if (other.CompareTag("enemy"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            health.HP -= health.MaxHP * 0.2f;
         }
     }
+
 }

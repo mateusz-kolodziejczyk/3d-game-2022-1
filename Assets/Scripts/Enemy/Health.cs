@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
@@ -13,13 +14,19 @@ public class Health : MonoBehaviour
 
    private void Update()
    {
-      if (hp <= 0)
+      if (hp <= 0 )
       {
-         deathCounter += Time.deltaTime;
-         if (deathCounter >= deathTime)
-         {
-            Destroy(gameObject);
+         if(gameObject.CompareTag("Player")){
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
          }
+         else{
+            deathCounter += Time.deltaTime;
+            if (deathCounter >= deathTime)
+            {
+               Destroy(gameObject);
+            }
+         }
+
       }
    }
 
