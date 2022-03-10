@@ -8,9 +8,9 @@ public class EnemySpawner : MonoBehaviour
 
     private double timer = 0;
 
-    private double timePerSpawn = 1;
+    private double timePerSpawn = 10;
 
-    private double spawnTimeMultiplier = 0.9;
+    private double spawnTimeMultiplier = 0.92;
     // Start is called before the first frame update
     void Start()
     {

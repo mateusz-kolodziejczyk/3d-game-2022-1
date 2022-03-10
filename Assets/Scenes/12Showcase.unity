@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 88812731}
   m_Layer: 3
   m_Name: Path1 (2)
-  m_TagString: Untagged
+  m_TagString: path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -287,25 +287,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c8ef28533b0dd40b67938b36fd9869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  paths:
-  - {fileID: 1511504143}
-  - {fileID: 155648748}
-  - {fileID: 88812730}
-  breadCrumb: {fileID: 4774181131746273336, guid: eb85365435d31c14ea07cc8e779bcd1a, type: 3}
-  _currentPath: 0
-  _wpCount: 0
-  _isWandering: 0
-  _isFollowingWaypoints: 0
-  _wanderingTarget: {fileID: 0}
-  _timer: 0
-  _animator: {fileID: 0}
-  _player: {fileID: 0}
-  _patrolTimer: 0
-  _counter: 0
-  _startPosition: {x: 0, y: 0, z: 0}
-  shootTimer: 0
-  _previousPosiiton: {x: 0, y: 0, z: 0}
 --- !u!195 &96502890
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -490,7 +471,7 @@ GameObject:
   - component: {fileID: 155648749}
   m_Layer: 3
   m_Name: Path1 (1)
-  m_TagString: Untagged
+  m_TagString: path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2295,7 +2276,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4483176014234289365, guid: fe8d8c53286034d8699447893f2b1628, type: 3}
       propertyPath: damage
-      value: 0
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 4483176014234289365, guid: fe8d8c53286034d8699447893f2b1628, type: 3}
       propertyPath: maxAmmo
@@ -2459,7 +2440,7 @@ GameObject:
   - component: {fileID: 1511504144}
   m_Layer: 3
   m_Name: Path1
-  m_TagString: Untagged
+  m_TagString: path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3074,6 +3055,10 @@ PrefabInstance:
     - target: {fileID: 6439974428829964549, guid: 730cf730f191d274a859cdd426488d53, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7748829551417506377, guid: 730cf730f191d274a859cdd426488d53, type: 3}
+      propertyPath: maxAmmo
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 730cf730f191d274a859cdd426488d53, type: 3}
@@ -3926,7 +3911,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9128754876314186445, guid: 5ebf106a6a2c19048bdc4779e1ecb6a7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17
+      value: -4.5
       objectReference: {fileID: 0}
     - target: {fileID: 9128754876314186445, guid: 5ebf106a6a2c19048bdc4779e1ecb6a7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3934,7 +3919,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9128754876314186445, guid: 5ebf106a6a2c19048bdc4779e1ecb6a7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -32.6
+      value: -10.5
       objectReference: {fileID: 0}
     - target: {fileID: 9128754876314186445, guid: 5ebf106a6a2c19048bdc4779e1ecb6a7, type: 3}
       propertyPath: m_LocalRotation.w
